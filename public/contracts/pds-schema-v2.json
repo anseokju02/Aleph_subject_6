@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plan-do-see-diary.anseokju02.chatgpt.site/contracts/pds-schema-v2.json",
+  "title": "Plan Do See Diary export contract",
+  "description": "과제 6 전체 데이터 내보내기·가져오기 계약. 날짜·시각은 ISO 8601 문자열, 시간 길이는 minutes 정수로 저장한다.",
+  "type": "object",
+  "required": ["schemaVersion", "exportedAt", "durationUnit", "timezone", "plans", "tasks", "executions"],
+  "properties": {
+    "schemaVersion": { "const": "pds-schema-v2" },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "durationUnit": { "const": "minutes" },
+    "timezone": { "const": "Asia/Seoul" },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "external_id", "title", "period_start", "period_end", "priority", "success_criteria", "estimated_minutes"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "external_id": { "type": "string" },
+          "title": { "type": "string" },
+          "period_start": { "type": "string", "format": "date" },
+          "period_end": { "type": "string", "format": "date" },
+          "priority": { "type": "string" },
+          "success_criteria": { "type": "string" },
+          "estimated_minutes": { "type": "integer", "minimum": 0 },
+          "next_plan": { "type": "string" }
+        }
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "plan_id", "title", "due_date", "priority", "tag", "estimated_minutes", "status"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "plan_id": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string" },
+          "due_date": { "type": "string", "format": "date" },
+          "scheduled_date": { "type": "string", "format": "date", "description": "하루 목록에 표시할 계획일. 이전 백업에 없으면 due_date로 복원한다." },
+          "auto_carry": { "type": "integer", "enum": [0, 1], "description": "미완료 자동 이월 여부. 이전 백업은 0으로 복원한다." },
+          "carried_from_task_id": { "type": ["integer", "null"], "description": "이월 전날의 기록 ID" },
+          "priority": { "type": "string" },
+          "tag": { "type": "string" },
+          "estimated_minutes": { "type": "integer", "minimum": 0 },
+          "status": { "enum": ["todo", "completed", "carried"] },
+          "deleted_at": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "executions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "task_id", "started_at", "ended_at", "actual_minutes", "blocked_reason"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "task_id": { "type": "integer", "minimum": 1 },
+          "started_at": { "type": "string" },
+          "ended_at": { "type": "string" },
+          "actual_minutes": { "type": "integer", "minimum": 0 },
+          "blocked_reason": { "type": "string" }
+        }
+      }
+    },
+    "appMeta": { "type": "array" }
+  }
+}

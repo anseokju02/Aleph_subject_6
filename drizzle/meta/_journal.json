@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1792252227221,
+      "tag": "0000_freezing_mephistopheles",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792285079630,
+      "tag": "0001_crazy_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792286362184,
+      "tag": "0002_loose_nomad",
+      "breakpoints": true
+    }
+  ]
+}
